@@ -18,7 +18,7 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
-        dd($e->getCode(), [$e->getMessage()]);
+//        dd($e->getCode(), [$e->getMessage()]);
         if ($request->wantsJson()) {
             if ($e instanceof ValidationException) {
                 $status = 422;

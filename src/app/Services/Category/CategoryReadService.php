@@ -21,7 +21,7 @@ final class CategoryReadService
     public function get(GetCategoryDTO $getCategoryDTO): CategoryCollection
     {
         $query = $this->filter->buildQuery($getCategoryDTO);
-        $categories = $this->readRepository->get($query);
+        $categories = $this->readRepository->get($query, $getCategoryDTO->getPageData());
 
         return $this->factory->buildCollection($categories);
     }

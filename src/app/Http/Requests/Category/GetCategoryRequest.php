@@ -19,7 +19,7 @@ final class GetCategoryRequest extends FormRequest
         return [
             'page' => ['required', 'array'],
             'page.limit' => ['required', 'integer', 'min:1'],
-            'page.offset' => ['required', 'integer', 'min:0'],
+            'page.number' => ['required', 'integer', 'min:1'],
         ];
     }
 
@@ -29,7 +29,7 @@ final class GetCategoryRequest extends FormRequest
 
         return new GetCategoryDTO(
             (int)$data['page']['limit'],
-            (int)$data['page']['offset'],
+            (int)$data['page']['number'],
         );
     }
 }

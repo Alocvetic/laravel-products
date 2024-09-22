@@ -21,7 +21,8 @@ final class ProductReadService
     public function get(GetProductDTO $getProductDTO): ProductCollection
     {
         $query = $this->filter->buildQuery($getProductDTO);
-        $products = $this->readRepository->get($query);
+
+        $products = $this->readRepository->get($query, $getProductDTO->getPageData());
 
         return $this->factory->buildCollection($products);
     }

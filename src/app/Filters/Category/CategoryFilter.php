@@ -10,8 +10,9 @@ use Illuminate\Database\Eloquent\Builder;
 
 final class CategoryFilter
 {
+    protected GetCategoryDTO $dto;
+
     public function __construct(
-        protected GetCategoryDTO $dto,
         protected Builder $query,
     ) {
         $this->query = Category::query();
@@ -28,7 +29,6 @@ final class CategoryFilter
 
     protected function page(): void
     {
-        $this->query->limit($this->dto->limit);
-        $this->query->offset($this->dto->offset);
+        $this->query->forPage($this->dto->page_number, $this->dto->page_limit);
     }
 }

@@ -10,8 +10,9 @@ use Illuminate\Database\Eloquent\Builder;
 
 final class ProductFilter
 {
+    protected GetProductDTO $dto;
+
     public function __construct(
-        protected GetProductDTO $dto,
         protected Builder $query,
     ) {
         $this->query = Product::query();
@@ -50,6 +51,7 @@ final class ProductFilter
     {
         $this->filterByCategoryId();
         $this->filterByPrice();
+        $this->filterSearch();
     }
 
     protected function filterByCategoryId(): void
@@ -69,14 +71,22 @@ final class ProductFilter
         if ($price_from !== null) {
             $this->query->where('price', '>=', $price_from);
         }
-        if ($price_from !== null) {
+        if ($price_to !== null) {
             $this->query->where('price', '<=', $price_to);
+        }
+    }
+
+    public function filterSearch(): void
+    {
+        $search = $this->dto->filter_search;
+
+        if ($search !== null) {
+            $this->query->where('name', 'like', '%' . $search . '%');
         }
     }
 
     protected function page(): void
     {
-        $this->query->limit($this->dto->limit);
-        $this->query->offset($this->dto->offset);
+        $this->query->forPage($this->dto->page_number, $this->dto->page_limit);
     }
 }

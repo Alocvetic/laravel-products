@@ -10,9 +10,9 @@ use Illuminate\Database\Eloquent\{Builder, ModelNotFoundException};
 
 final class ProductReadRepository
 {
-    public function get(Builder $query): LengthAwarePaginator
+    public function get(Builder $query, array $pageData): LengthAwarePaginator
     {
-        return $query->paginate(perPage: $query->limit);
+        return $query->paginate($pageData['limit'], page: $pageData['number']);
     }
 
     public function getById(int $id): Product

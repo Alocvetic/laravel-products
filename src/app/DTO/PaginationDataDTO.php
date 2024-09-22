@@ -8,8 +8,9 @@ final class PaginationDataDTO
 {
     public function __construct(
         public int $total,
-        public int $limit,
-        public int $offset,
+        public int $perPage,
+        public int $currentPage,
+        public int $lastPage,
     ) {
     }
 

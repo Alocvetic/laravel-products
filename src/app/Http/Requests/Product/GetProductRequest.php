@@ -19,12 +19,13 @@ final class GetProductRequest extends FormRequest
         return [
             'page' => ['required', 'array'],
             'page.limit' => ['required', 'integer', 'min:1'],
-            'page.offset' => ['required', 'integer', 'min:0'],
+            'page.number' => ['required', 'integer', 'min:1'],
             'sort' => ['nullable', 'string'],
             'filter' => ['nullable', 'array'],
             'filter.category_id' => ['nullable', 'integer', 'min:0'],
             'filter.price_from' => ['nullable', 'integer', 'min:0'],
             'filter.price_to' => ['nullable', 'integer', 'min:0'],
+            'filter.search' => ['nullable', 'string', 'min:1'],
         ];
     }
 
@@ -34,11 +35,12 @@ final class GetProductRequest extends FormRequest
 
         return new GetProductDTO(
             (int)$data['page']['limit'],
-            (int)$data['page']['offset'],
+            (int)$data['page']['number'],
             $data['sort'] ?? null,
             isset($data['filter']['category_id']) ? (int)$data['filter']['category_id'] : null,
             isset($data['filter']['price_from']) ? (int)$data['filter']['price_from'] : null,
             isset($data['filter']['price_to']) ? (int)$data['filter']['price_to'] : null,
+            $data['filter']['search'] ?? null,
         );
     }
 }
