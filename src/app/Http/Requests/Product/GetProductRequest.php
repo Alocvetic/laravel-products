@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Product;
 
 use App\DTO\Product\GetProductDTO;
+use App\Rules\Product\AvailableProductSortRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 final class GetProductRequest extends FormRequest
@@ -20,7 +21,7 @@ final class GetProductRequest extends FormRequest
             'page' => ['required', 'array'],
             'page.limit' => ['required', 'integer', 'min:1'],
             'page.number' => ['required', 'integer', 'min:1'],
-            'sort' => ['nullable', 'string'],
+            'sort' => ['nullable', 'string', new AvailableProductSortRule()],
             'filter' => ['nullable', 'array'],
             'filter.category_id' => ['nullable', 'integer', 'min:0'],
             'filter.price_from' => ['nullable', 'integer', 'min:0'],
