@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use App\Exceptions\Auth\LoginException;
 use App\Helpers\ResponseHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -19,9 +18,12 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
-//        dd($e->getCode(), [$e->getMessage()]);
         if ($request->wantsJson()) {
-            if ($e instanceof ValidationException) {
+            if ($e instanceof AbstractApiException) {
+                $status = $e->getCode();
+                $data = null;
+                $message = $e->getMessage();
+            } elseif ($e instanceof ValidationException) {
                 $status = 422;
                 $data = $e->errors();
                 $message = 'Ошибка валидации данных';
@@ -29,12 +31,8 @@ class Handler extends ExceptionHandler
                 $status = 404;
                 $data = null;
                 $message = 'Запись не найдена';
-            } elseif ($e instanceof LoginException) {
-                $status = 422;
-                $data = null;
-                $message = $e->getMessage();
             } else {
-                $status = $e->getCode();
+                $status = 500;
                 $data = [$e->getMessage()];
                 $message = 'Произошла ошибка! Мы уже работаем над ее устранением.';
             }
@@ -52,7 +50,6 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-
         });
     }
 }

@@ -6,10 +6,10 @@ namespace App\Exceptions\Auth;
 
 use App\Exceptions\AbstractApiException;
 
-final class LoginException extends AbstractApiException
+final class AccessRoleUserException extends AbstractApiException
 {
     public function __construct()
     {
-        parent::__construct("Неверный email или пароль!", 422);
+        parent::__construct('У вас нет прав доступа!', 403);
     }
 }

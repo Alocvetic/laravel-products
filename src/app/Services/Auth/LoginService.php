@@ -23,7 +23,7 @@ final class LoginService
         $user = $this->readRepository->login($dataDTO);
 
         $user->tokens()->delete();
-        $token = $user->createToken('user');
+        $token = $user->createToken('user', ["role:$user->role"]);
 
         return [
             'data' => [
