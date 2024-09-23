@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\Auth\LoginException;
 use App\Helpers\ResponseHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -26,8 +27,12 @@ class Handler extends ExceptionHandler
                 $message = 'Ошибка валидации данных';
             } elseif ($e instanceof ModelNotFoundException) {
                 $status = 404;
-                $data = [];
+                $data = null;
                 $message = 'Запись не найдена';
+            } elseif ($e instanceof LoginException) {
+                $status = 422;
+                $data = null;
+                $message = $e->getMessage();
             } else {
                 $status = $e->getCode();
                 $data = [$e->getMessage()];
