@@ -20,8 +20,8 @@ final class RegisterController extends Controller
     public function __invoke(RegisterRequest $request): JsonResponse
     {
         $dataDto = $request->toDto();
-        $responseData = ($this->registerService)($dataDto);
+        $this->registerService->register($dataDto);
 
-        return ResponseHelper::build($responseData['data'], message: $responseData['message']);
+        return ResponseHelper::build(message: 'Пользователь успешно зарегистрирован!');
     }
 }

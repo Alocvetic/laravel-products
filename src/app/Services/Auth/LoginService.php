@@ -7,29 +7,23 @@ namespace App\Services\Auth;
 use App\DTO\Auth\LoginDataDTO;
 use App\Exceptions\Auth\LoginException;
 use App\Repository\User\UserReadRepository;
+use App\Services\TokenService;
 
 final class LoginService
 {
     public function __construct(
         protected readonly UserReadRepository $readRepository,
+        protected readonly TokenService $tokenService,
     ) {
     }
 
     /**
      * @throws LoginException
      */
-    public function __invoke(LoginDataDTO $dataDTO): array
+    public function login(LoginDataDTO $dataDTO): string
     {
         $user = $this->readRepository->login($dataDTO);
 
-        $user->tokens()->delete();
-        $token = $user->createToken('user', ["role:$user->role"]);
-
-        return [
-            'data' => [
-                'token' => $token->plainTextToken
-            ],
-            'message' => 'Пользователь успешно авторизован!'
-        ];
+        return $this->tokenService->createNew($user);
     }
 }

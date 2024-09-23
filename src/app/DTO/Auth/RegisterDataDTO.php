@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\DTO\Auth;
 
+use Illuminate\Support\Facades\Hash;
+
 final class RegisterDataDTO
 {
     public function __construct(
@@ -16,6 +18,13 @@ final class RegisterDataDTO
 
     public function toArray(): array
     {
-        return (array)$this;
+        return [
+            'name' => $this->name,
+            'role' => $this->role,
+            'email' => $this->email,
+            'password' => Hash::make($this->password),
+        ];
     }
+
+
 }

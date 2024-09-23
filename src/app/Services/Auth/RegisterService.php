@@ -14,13 +14,8 @@ final class RegisterService
     ) {
     }
 
-    public function __invoke(RegisterDataDTO $dataDTO): array
+    public function register(RegisterDataDTO $dataDTO): void
     {
         $this->writeRepository->create($dataDTO);
-
-        return [
-            'data' => null,
-            'message' => 'Пользователь успешно зарегистрирован!'
-        ];
     }
 }

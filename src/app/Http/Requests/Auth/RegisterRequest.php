@@ -36,7 +36,7 @@ final class RegisterRequest extends FormRequest
             $data['name'],
             $data['role'],
             $data['email'],
-            Hash::make($data['password']),
+            $data['password'],
         );
     }
 }

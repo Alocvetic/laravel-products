@@ -19,8 +19,8 @@ final class LogoutController extends Controller
 
     public function __invoke(Request $request): JsonResponse
     {
-        $responseData = ($this->logoutService)($request);
+        $this->logoutService->logout($request);
 
-        return ResponseHelper::build($responseData['data'], message: $responseData['message']);
+        return ResponseHelper::build(message: 'Пользователь успешно разлогинен!');
     }
 }

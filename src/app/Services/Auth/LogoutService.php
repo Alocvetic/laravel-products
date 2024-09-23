@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Services\Auth;
 
+use App\Services\TokenService;
 use Illuminate\Http\Request;
 
 final class LogoutService
 {
-    public function __invoke(Request $request): array
+    public function __construct(
+        protected readonly TokenService $tokenService,
+    ) {
+    }
+
+    public function logout(Request $request): void
     {
         $user = $request->user();
-
-        $user->currentAccessToken()->delete();
-
-        return [
-            'data' => null,
-            'message' => 'Пользователь успешно разлогинен!'
-        ];
+        $this->tokenService->delete($user);
     }
 }

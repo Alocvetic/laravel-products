@@ -24,8 +24,12 @@ final class LoginController extends Controller
     public function __invoke(LoginRequest $request): JsonResponse
     {
         $dataDto = $request->toDto();
-        $responseData = ($this->loginService)($dataDto);
+        $token = $this->loginService->login($dataDto);
 
-        return ResponseHelper::build($responseData['data'], message: $responseData['message']);
+        $responseData = [
+            'token' => $token
+        ];
+
+        return ResponseHelper::build($responseData, message: 'Пользователь успешно авторизован!');
     }
 }
